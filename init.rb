@@ -1,18 +1,4 @@
-require 'active_support/time'
-
-require 'yaml'
-require 'securerandom'
-
-require './modules/common'
-require './modules/data_manipulation'
-
-include Common
-include DataManipulation
-
-require './entities/book'
-require './entities/order'
-require './entities/author'
-require './entities/reader'
+require './require'
 
 File.delete DataManipulation::STORAGE if File.exist? DataManipulation::STORAGE
 
@@ -25,7 +11,7 @@ authors_hash = {
 }
 authors = []
 authors_hash.each do |key, value|
-  authors << Author.new(key, value)
+  authors << Author.new(key.to_s, value)
 end
 
 DataManipulation.add_authors authors
@@ -42,9 +28,9 @@ authors = DataManipulation.fetch_authors
 
 books = []
 authors.each do |author|
-  next unless books_hash.key? author.name
-  books_hash[author.name].each do |book_name|
-    books << Book.new(book_name, author.id)
+  next unless books_hash.key? author.name.to_sym
+  books_hash[author.name.to_sym].each do |book_name|
+    books << Book.new(book_name, author)
   end
 end
 DataManipulation.add_books books
@@ -79,6 +65,9 @@ orders_arr = [
 ]
 
 orders_arr.each do |item|
-  orders << Order.new(DataManipulation.fetch_book_by_name(item[:book]), DataManipulation.fetch_reader_by_name(item[:reader]))
+  orders << Order.new(
+    DataManipulation.fetch_book_by_name(item[:book]),
+    DataManipulation.fetch_reader_by_name(item[:reader])
+  )
 end
 DataManipulation.add_orders orders
