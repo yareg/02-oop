@@ -2,44 +2,24 @@
 module DataManipulation
   STORAGE = 'library.yml'.freeze
 
-  def add_authors(authors)
-    add_data(authors, :authors)
-  end
+  def method_missing(method_name, *args, &block)
+    match = method_name.to_s.match(/^((add|fetch)_(authors|books|orders|readers)|(fetch)_(book|reader)_by_name)$/)
 
-  def add_books(books)
-    add_data(books, :books)
-  end
-
-  def add_orders(orders)
-    add_data(orders, :orders)
-  end
-
-  def add_readers(readers)
-    add_data(readers, :readers)
-  end
-
-  def fetch_authors
-    fetch_data :authors
-  end
-
-  def fetch_books
-    fetch_data :books
-  end
-
-  def fetch_orders
-    fetch_data :orders
-  end
-
-  def fetch_readers
-    fetch_data :readers
-  end
-
-  def fetch_book_by_name(book_name)
-    fetch_item_by_name(book_name, 'title', :books)
-  end
-
-  def fetch_reader_by_name(reader_name)
-    fetch_item_by_name(reader_name, 'name', :readers)
+    if match
+      case match[2]
+      when 'add'
+        __send__("#{match[2]}_data".to_sym, args[0], match[3].to_sym)
+      when 'fetch'
+        __send__("#{match[2]}_data".to_sym, match[3].to_sym)
+      when nil && !match[5].nil?
+        compare_field_map = { book: 'title', reader: 'name' }
+        __send__(:fetch_item_by_name, args[0], compare_field_map[match[5].to_sym], "#{match[5]}s".to_sym)
+      else
+        super
+      end
+    else
+      super
+    end
   end
 
   private
