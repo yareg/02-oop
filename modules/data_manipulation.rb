@@ -3,7 +3,7 @@ module DataManipulation
   STORAGE = 'library.yml'.freeze
 
   def method_missing(method_name, *args, &block)
-    match = method_name.to_s.match(/^((add|fetch)_(authors|books|orders|readers)|(fetch)_(book|reader)_by_name)$/)
+    match = match_missing(method_name)
 
     if match
       case match[2]
@@ -22,7 +22,15 @@ module DataManipulation
     end
   end
 
+  def respond_to_missing?(method_name, include_private = false)
+    !match_missing(method_name).nil? || super
+  end
+
   private
+
+  def match_missing(method_name)
+    method_name.to_s.match(/^((add|fetch)_(authors|books|orders|readers)|(fetch)_(book|reader)_by_name)$/)
+  end
 
   def add_data(data, key)
     data = [data] unless data.is_a? Array
