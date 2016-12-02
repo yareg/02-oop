@@ -19,22 +19,5 @@ puts '-- Author:'
 puts '---- name: ' + book.author.name
 puts '---- biography: ' + book.author.biography
 
-books, readers = library.three_popular_books_orders
-
 puts '**********************'
-puts 'Three most popular books:'
-books.each do |popular_book|
-  puts '-- Title: ' + popular_book.title
-  puts '-- Author: ' + popular_book.author.name
-  puts ''
-end
-puts '**********************'
-puts 'People, who ordered al least one of these books:'
-readers.each do |book_reader|
-  puts '-- Name: ' + book_reader.name
-  puts '-- E-mail: ' + book_reader.email
-  puts '-- City: ' + book_reader.city
-  puts '-- Street: ' + book_reader.street
-  puts '-- House: ' + book_reader.house.to_s
-  puts ''
-end
+puts "Amount of people, who ordered one of the three most popular books: #{library.three_popular_books_readers_count}"

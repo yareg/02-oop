@@ -42,7 +42,8 @@ readers_arr = [
   ['Semen', 'semen@yopmail.com', 'Kyiv', 'Obolonska', 56],
   ['Olga', 'olga@yopmail.com', 'Dnipro', 'Korolenko', 15],
   ['Maksim', 'maksim@yopmail.com', 'Dnipro', 'Fabra', 4],
-  ['Svitlana', 'svtlana@yopmail.com', 'Lviv', 'Bandery', 39]
+  ['Svitlana', 'svtlana@yopmail.com', 'Lviv', 'Bandery', 39],
+  ['Antonina', 'antonina@yopmail.com', 'Lviv', 'Chornovola', 100]
 ]
 readers_arr.each do |reader|
   readers << Reader.new(reader[0], reader[1], reader[2], reader[3], reader[4])
@@ -61,7 +62,8 @@ orders_arr = [
   { book: 'Kobzar', reader: 'Fedor' },
   { book: 'Stranger', reader: 'Svitlana' },
   { book: 'Martin Eden', reader: 'Svitlana' },
-  { book: 'Kobzar', reader: 'Svitlana' }
+  { book: 'Kobzar', reader: 'Svitlana' },
+  { book: 'The Iron Heel', reader: 'Antonina' }
 ]
 
 orders_arr.each do |item|
